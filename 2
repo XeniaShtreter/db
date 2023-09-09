@@ -59,7 +59,6 @@ ALTER TABLE `photos` ADD CONSTRAINT
 FOREIGN KEY (`tags_for_photos_id`) REFERENCES `tags_for_photos`(`id_tags_for_photos`);
 
 ALTER TABLE `profile` ADD COLUMN `phone` int NOT NULL UNIQUE;
-ALTER TABLE `profile` ADD COLUMN `mail` char(45) NOT NULL UNIQUE;
 
 CREATE TABLE IF NOT EXISTS `categories`(
 `id_categories` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
