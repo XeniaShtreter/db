@@ -1,0 +1,415 @@
+DROP DATABASE `photo`;
+CREATE DATABASE IF NOT EXISTS `photo`;
+USE `photo`;
+
+CREATE TABLE IF NOT EXISTS `profile`(
+`id_profile` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`name` char(45) NOT NULL,
+`surname` char(45) NOT NULL,
+`birthday` date NOT NULL,
+`card` int UNIQUE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `users`(
+`id_users` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`login` char(45) UNIQUE NOT NULL,
+`password` char(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `status`(
+`id_status` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`name` char(45) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `photos`(
+`id_photos` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`tags` char(45) NOT NULL,
+`date` date NOT NULL,
+`price` int NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `tags_for_photos`(
+`id_tags_for_photos` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`name` char(45) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `state`(
+`id_state` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`name` char(45) NOT NULL
+);
+
+ALTER TABLE `profile` ADD COLUMN `users_id` int;
+ALTER TABLE `profile` ADD CONSTRAINT
+FOREIGN KEY (`users_id`) REFERENCES `users`(`id_users`);
+
+ALTER TABLE `profile` ADD COLUMN `status_id` int;
+ALTER TABLE `profile` ADD CONSTRAINT
+FOREIGN KEY (`status_id`) REFERENCES `status`(`id_status`);
+
+ALTER TABLE `profile` ADD COLUMN `state_id` int;
+ALTER TABLE `profile` ADD CONSTRAINT
+FOREIGN KEY (`state_id`) REFERENCES `state`(`id_state`);
+
+ALTER TABLE `photos` ADD COLUMN `users_id` int;
+ALTER TABLE `photos` ADD CONSTRAINT
+FOREIGN KEY (`users_id`) REFERENCES `users`(`id_users`);
+
+ALTER TABLE `photos` ADD COLUMN `tags_for_photos_id` int;
+ALTER TABLE `photos` ADD CONSTRAINT
+FOREIGN KEY (`tags_for_photos_id`) REFERENCES `tags_for_photos`(`id_tags_for_photos`);
+
+ALTER TABLE `profile` ADD COLUMN `phone` int NOT NULL UNIQUE;
+
+CREATE TABLE IF NOT EXISTS `categories`(
+`id_categories` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`name` char(45) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `graphics` (
+`id_graphics` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`tags` char(45) NOT NULL,
+`date` date NOT NULL,
+`price` int NOT NULL,
+`categories_id` int NOT NULL,
+FOREIGN KEY (`categories_id`) REFERENCES `categories`(`id_categories`),
+`users_id` int NOT NULL,
+FOREIGN KEY (`users_id`) REFERENCES `users`(`id_users`)
+);
+
+CREATE TABLE IF NOT EXISTS `tags_for_videos`(
+`id_tags_for_videos` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`name` char(45) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `videos` (
+`id_videos` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`tags` char(45) NOT NULL,
+`date` date NOT NULL,
+`price` int NOT NULL,
+`tags_for_videos_id` int NOT NULL,
+FOREIGN KEY (`tags_for_videos_id`) REFERENCES `tags_for_videos`(`id_tags_for_videos`),
+`users_id` int NOT NULL,
+FOREIGN KEY (`users_id`) REFERENCES `users`(`id_users`)
+);
+
+INSERT INTO `categories` (`id_categories`, `name`) VALUES (1, 'logo');
+INSERT INTO `categories` (`id_categories`, `name`) VALUES (2, 'icon');
+INSERT INTO `categories` (`id_categories`, `name`) VALUES (3, 'textures');
+INSERT INTO `categories` (`id_categories`, `name`) VALUES (4, 'illustration');
+INSERT INTO `categories` (`id_categories`, `name`) VALUES (5, 'background');
+INSERT INTO `categories` (`id_categories`, `name`) VALUES (6, 'vector');
+INSERT INTO `categories` (`id_categories`, `name`) VALUES (7, 'poster');
+INSERT INTO `categories` (`id_categories`, `name`) VALUES (8, 'drawing');
+
+
+
+INSERT INTO `state` (`id_state`, `name`) VALUES (1, 'Sierra Leone');
+INSERT INTO `state` (`id_state`, `name`) VALUES (2, 'Peru');
+INSERT INTO `state` (`id_state`, `name`) VALUES (3, 'Pitcairn Islands');
+INSERT INTO `state` (`id_state`, `name`) VALUES (4, 'Djibouti');
+INSERT INTO `state` (`id_state`, `name`) VALUES (5, 'Vietnam');
+INSERT INTO `state` (`id_state`, `name`) VALUES (6, 'Angola');
+INSERT INTO `state` (`id_state`, `name`) VALUES (7, 'Ecuador');
+INSERT INTO `state` (`id_state`, `name`) VALUES (8, 'Ukraine');
+INSERT INTO `state` (`id_state`, `name`) VALUES (9, 'Armenia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (10, 'Qatar');
+INSERT INTO `state` (`id_state`, `name`) VALUES (11, 'Somalia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (12, 'French Polynesia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (13, 'Malta');
+INSERT INTO `state` (`id_state`, `name`) VALUES (14, 'Falkland Islands (Malvinas)');
+INSERT INTO `state` (`id_state`, `name`) VALUES (15, 'Russian Federation');
+INSERT INTO `state` (`id_state`, `name`) VALUES (16, 'Martinique');
+INSERT INTO `state` (`id_state`, `name`) VALUES (17, 'Papua New Guinea');
+INSERT INTO `state` (`id_state`, `name`) VALUES (18, 'Belgium');
+INSERT INTO `state` (`id_state`, `name`) VALUES (19, 'French Southern Territories');
+INSERT INTO `state` (`id_state`, `name`) VALUES (20, 'Greece');
+INSERT INTO `state` (`id_state`, `name`) VALUES (21, 'United Kingdom');
+INSERT INTO `state` (`id_state`, `name`) VALUES (22, 'Poland');
+INSERT INTO `state` (`id_state`, `name`) VALUES (23, 'Brunei Darussalam');
+INSERT INTO `state` (`id_state`, `name`) VALUES (24, 'Western Sahara');
+INSERT INTO `state` (`id_state`, `name`) VALUES (25, 'Greenland');
+INSERT INTO `state` (`id_state`, `name`) VALUES (26, 'United Arab Emirates');
+INSERT INTO `state` (`id_state`, `name`) VALUES (27, 'Morocco');
+INSERT INTO `state` (`id_state`, `name`) VALUES (28, 'Guadeloupe');
+INSERT INTO `state` (`id_state`, `name`) VALUES (29, 'Mozambique');
+INSERT INTO `state` (`id_state`, `name`) VALUES (30, 'Nigeria');
+INSERT INTO `state` (`id_state`, `name`) VALUES (31, 'Saint Barthelemy');
+INSERT INTO `state` (`id_state`, `name`) VALUES (32, 'Netherlands');
+INSERT INTO `state` (`id_state`, `name`) VALUES (33, 'Micronesia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (34, 'Japan');
+INSERT INTO `state` (`id_state`, `name`) VALUES (35, 'Bolivia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (36, 'Northern Mariana Islands');
+INSERT INTO `state` (`id_state`, `name`) VALUES (37, 'Marshall Islands');
+INSERT INTO `state` (`id_state`, `name`) VALUES (38, 'Belize');
+INSERT INTO `state` (`id_state`, `name`) VALUES (39, 'Macao');
+INSERT INTO `state` (`id_state`, `name`) VALUES (40, 'Israel');
+INSERT INTO `state` (`id_state`, `name`) VALUES (41, 'Finland');
+INSERT INTO `state` (`id_state`, `name`) VALUES (42, 'Germany');
+INSERT INTO `state` (`id_state`, `name`) VALUES (43, 'Cote d\'Ivoire');
+INSERT INTO `state` (`id_state`, `name`) VALUES (44, 'Palestinian Territory');
+INSERT INTO `state` (`id_state`, `name`) VALUES (45, 'Chile');
+INSERT INTO `state` (`id_state`, `name`) VALUES (46, 'Austria');
+INSERT INTO `state` (`id_state`, `name`) VALUES (47, 'Holy See (Vatican City State)');
+INSERT INTO `state` (`id_state`, `name`) VALUES (48, 'Monaco');
+INSERT INTO `state` (`id_state`, `name`) VALUES (49, 'Antarctica (the territory South of 60 deg S)');
+INSERT INTO `state` (`id_state`, `name`) VALUES (50, 'Iran');
+INSERT INTO `state` (`id_state`, `name`) VALUES (51, 'Argentina');
+INSERT INTO `state` (`id_state`, `name`) VALUES (52, 'Burkina Faso');
+INSERT INTO `state` (`id_state`, `name`) VALUES (53, 'Palau');
+INSERT INTO `state` (`id_state`, `name`) VALUES (54, 'New Zealand');
+INSERT INTO `state` (`id_state`, `name`) VALUES (55, 'Mauritius');
+INSERT INTO `state` (`id_state`, `name`) VALUES (56, 'Comoros');
+INSERT INTO `state` (`id_state`, `name`) VALUES (57, 'Liberia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (58, 'British Indian Ocean Territory (Chagos Archip');
+INSERT INTO `state` (`id_state`, `name`) VALUES (59, 'Egypt');
+INSERT INTO `state` (`id_state`, `name`) VALUES (60, 'Honduras');
+INSERT INTO `state` (`id_state`, `name`) VALUES (61, 'Pakistan');
+INSERT INTO `state` (`id_state`, `name`) VALUES (62, 'Indonesia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (63, 'Kyrgyz Republic');
+INSERT INTO `state` (`id_state`, `name`) VALUES (64, 'Mayotte');
+INSERT INTO `state` (`id_state`, `name`) VALUES (65, 'Chad');
+INSERT INTO `state` (`id_state`, `name`) VALUES (66, 'Yemen');
+INSERT INTO `state` (`id_state`, `name`) VALUES (67, 'Zimbabwe');
+INSERT INTO `state` (`id_state`, `name`) VALUES (68, 'South Africa');
+INSERT INTO `state` (`id_state`, `name`) VALUES (69, 'Tonga');
+INSERT INTO `state` (`id_state`, `name`) VALUES (70, 'Brazil');
+INSERT INTO `state` (`id_state`, `name`) VALUES (71, 'Paraguay');
+INSERT INTO `state` (`id_state`, `name`) VALUES (72, 'Ethiopia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (73, 'Mexico');
+INSERT INTO `state` (`id_state`, `name`) VALUES (74, 'Sudan');
+INSERT INTO `state` (`id_state`, `name`) VALUES (75, 'Bulgaria');
+INSERT INTO `state` (`id_state`, `name`) VALUES (76, 'Barbados');
+INSERT INTO `state` (`id_state`, `name`) VALUES (77, 'Central African Republic');
+INSERT INTO `state` (`id_state`, `name`) VALUES (78, 'Antigua and Barbuda');
+INSERT INTO `state` (`id_state`, `name`) VALUES (79, 'Slovenia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (80, 'Iraq');
+INSERT INTO `state` (`id_state`, `name`) VALUES (81, 'Puerto Rico');
+INSERT INTO `state` (`id_state`, `name`) VALUES (82, 'Guyana');
+INSERT INTO `state` (`id_state`, `name`) VALUES (83, 'Tanzania');
+INSERT INTO `state` (`id_state`, `name`) VALUES (84, 'Singapore');
+INSERT INTO `state` (`id_state`, `name`) VALUES (85, 'Guernsey');
+INSERT INTO `state` (`id_state`, `name`) VALUES (86, 'Haiti');
+INSERT INTO `state` (`id_state`, `name`) VALUES (87, 'Syrian Arab Republic');
+INSERT INTO `state` (`id_state`, `name`) VALUES (88, 'Faroe Islands');
+INSERT INTO `state` (`id_state`, `name`) VALUES (89, 'Fiji');
+INSERT INTO `state` (`id_state`, `name`) VALUES (90, 'Moldova');
+INSERT INTO `state` (`id_state`, `name`) VALUES (91, 'Saint Martin');
+INSERT INTO `state` (`id_state`, `name`) VALUES (92, 'Sao Tome and Principe');
+INSERT INTO `state` (`id_state`, `name`) VALUES (93, 'Azerbaijan');
+INSERT INTO `state` (`id_state`, `name`) VALUES (94, 'Tunisia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (95, 'Seychelles');
+INSERT INTO `state` (`id_state`, `name`) VALUES (96, 'France');
+INSERT INTO `state` (`id_state`, `name`) VALUES (97, 'Uzbekistan');
+INSERT INTO `state` (`id_state`, `name`) VALUES (98, 'United States Minor Outlying Islands');
+INSERT INTO `state` (`id_state`, `name`) VALUES (99, 'Cocos (Keeling) Islands');
+INSERT INTO `state` (`id_state`, `name`) VALUES (100, 'Cyprus');
+INSERT INTO `state` (`id_state`, `name`) VALUES (101, 'Saint Helena');
+INSERT INTO `state` (`id_state`, `name`) VALUES (102, 'Norway');
+INSERT INTO `state` (`id_state`, `name`) VALUES (103, 'Macedonia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (104, 'Serbia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (105, 'Heard Island and McDonald Islands');
+INSERT INTO `state` (`id_state`, `name`) VALUES (106, 'Netherlands Antilles');
+INSERT INTO `state` (`id_state`, `name`) VALUES (107, 'Guinea');
+INSERT INTO `state` (`id_state`, `name`) VALUES (108, 'Cape Verde');
+INSERT INTO `state` (`id_state`, `name`) VALUES (109, 'Guam');
+INSERT INTO `state` (`id_state`, `name`) VALUES (110, 'Korea');
+INSERT INTO `state` (`id_state`, `name`) VALUES (111, 'Belarus');
+INSERT INTO `state` (`id_state`, `name`) VALUES (112, 'Montserrat');
+INSERT INTO `state` (`id_state`, `name`) VALUES (113, 'Kuwait');
+INSERT INTO `state` (`id_state`, `name`) VALUES (114, 'Gambia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (115, 'Nepal');
+INSERT INTO `state` (`id_state`, `name`) VALUES (116, 'Bermuda');
+INSERT INTO `state` (`id_state`, `name`) VALUES (117, 'Afghanistan');
+INSERT INTO `state` (`id_state`, `name`) VALUES (118, 'Benin');
+INSERT INTO `state` (`id_state`, `name`) VALUES (119, 'Saudi Arabia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (120, 'Namibia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (121, 'Niue');
+INSERT INTO `state` (`id_state`, `name`) VALUES (122, 'British Virgin Islands');
+INSERT INTO `state` (`id_state`, `name`) VALUES (123, 'Madagascar');
+INSERT INTO `state` (`id_state`, `name`) VALUES (124, 'Saint Kitts and Nevis');
+INSERT INTO `state` (`id_state`, `name`) VALUES (125, 'Montenegro');
+INSERT INTO `state` (`id_state`, `name`) VALUES (126, 'Burundi');
+INSERT INTO `state` (`id_state`, `name`) VALUES (127, 'Taiwan');
+INSERT INTO `state` (`id_state`, `name`) VALUES (128, 'Tuvalu');
+INSERT INTO `state` (`id_state`, `name`) VALUES (129, 'Saint Pierre and Miquelon');
+INSERT INTO `state` (`id_state`, `name`) VALUES (130, 'Congo');
+INSERT INTO `state` (`id_state`, `name`) VALUES (131, 'Switzerland');
+INSERT INTO `state` (`id_state`, `name`) VALUES (132, 'Reunion');
+INSERT INTO `state` (`id_state`, `name`) VALUES (133, 'Croatia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (134, 'Kiribati');
+INSERT INTO `state` (`id_state`, `name`) VALUES (135, 'Aruba');
+INSERT INTO `state` (`id_state`, `name`) VALUES (136, 'Tokelau');
+INSERT INTO `state` (`id_state`, `name`) VALUES (137, 'Samoa');
+INSERT INTO `state` (`id_state`, `name`) VALUES (138, 'Trinidad and Tobago');
+INSERT INTO `state` (`id_state`, `name`) VALUES (139, 'Hong Kong');
+INSERT INTO `state` (`id_state`, `name`) VALUES (140, 'Dominica');
+INSERT INTO `state` (`id_state`, `name`) VALUES (141, 'Suriname');
+INSERT INTO `state` (`id_state`, `name`) VALUES (142, 'Iceland');
+INSERT INTO `state` (`id_state`, `name`) VALUES (143, 'Senegal');
+INSERT INTO `state` (`id_state`, `name`) VALUES (144, 'Gibraltar');
+INSERT INTO `state` (`id_state`, `name`) VALUES (145, 'Malaysia');
+INSERT INTO `state` (`id_state`, `name`) VALUES (146, 'Uganda');
+INSERT INTO `state` (`id_state`, `name`) VALUES (147, 'Hungary');
+INSERT INTO `state` (`id_state`, `name`) VALUES (148, 'Saint Vincent and the Grenadines');
+INSERT INTO `state` (`id_state`, `name`) VALUES (149, 'Jordan');
+INSERT INTO `state` (`id_state`, `name`) VALUES (150, 'Bouvet Island (Bouvetoya)');
+
+
+INSERT INTO `status` (`id_status`, `name`) VALUES (1, 'videographer');
+INSERT INTO `status` (`id_status`, `name`) VALUES (2, 'graphic designer');
+INSERT INTO `status` (`id_status`, `name`) VALUES (3, 'photographer');
+
+
+INSERT INTO `tags_for_photos` (`id_tags_for_photos`, `name`) VALUES (1, 'nature');
+INSERT INTO `tags_for_photos` (`id_tags_for_photos`, `name`) VALUES (2, 'female');
+INSERT INTO `tags_for_photos` (`id_tags_for_photos`, `name`) VALUES (3, 'fashion');
+INSERT INTO `tags_for_photos` (`id_tags_for_photos`, `name`) VALUES (4, 'birthday');
+INSERT INTO `tags_for_photos` (`id_tags_for_photos`, `name`) VALUES (5, 'wedding');
+INSERT INTO `tags_for_photos` (`id_tags_for_photos`, `name`) VALUES (6, 'holiday');
+INSERT INTO `tags_for_photos` (`id_tags_for_photos`, `name`) VALUES (7, 'vacation');
+INSERT INTO `tags_for_photos` (`id_tags_for_photos`, `name`) VALUES (8, 'monochrome');
+INSERT INTO `tags_for_photos` (`id_tags_for_photos`, `name`) VALUES (9, 'male');
+INSERT INTO `tags_for_photos` (`id_tags_for_photos`, `name`) VALUES (10, 'travel');
+INSERT INTO `tags_for_photos` (`id_tags_for_photos`, `name`) VALUES (11, 'animals');
+INSERT INTO `tags_for_photos` (`id_tags_for_photos`, `name`) VALUES (12, 'portrait');
+INSERT INTO `tags_for_photos` (`id_tags_for_photos`, `name`) VALUES (13, 'human');
+INSERT INTO `tags_for_photos` (`id_tags_for_photos`, `name`) VALUES (14, 'color');
+
+
+INSERT INTO `tags_for_videos` (`id_tags_for_videos`, `name`) VALUES (1, 'monochrome');
+INSERT INTO `tags_for_videos` (`id_tags_for_videos`, `name`) VALUES (2, 'portrait');
+INSERT INTO `tags_for_videos` (`id_tags_for_videos`, `name`) VALUES (3, 'female');
+INSERT INTO `tags_for_videos` (`id_tags_for_videos`, `name`) VALUES (4, 'human');
+INSERT INTO `tags_for_videos` (`id_tags_for_videos`, `name`) VALUES (5, 'nature');
+INSERT INTO `tags_for_videos` (`id_tags_for_videos`, `name`) VALUES (6, 'travel');
+INSERT INTO `tags_for_videos` (`id_tags_for_videos`, `name`) VALUES (7, 'birthday');
+INSERT INTO `tags_for_videos` (`id_tags_for_videos`, `name`) VALUES (8, 'wedding');
+INSERT INTO `tags_for_videos` (`id_tags_for_videos`, `name`) VALUES (9, 'vacation');
+INSERT INTO `tags_for_videos` (`id_tags_for_videos`, `name`) VALUES (10, 'animals');
+INSERT INTO `tags_for_videos` (`id_tags_for_videos`, `name`) VALUES (11, 'fashion');
+INSERT INTO `tags_for_videos` (`id_tags_for_videos`, `name`) VALUES (12, 'color');
+INSERT INTO `tags_for_videos` (`id_tags_for_videos`, `name`) VALUES (13, 'holiday');
+INSERT INTO `tags_for_videos` (`id_tags_for_videos`, `name`) VALUES (14, 'male');
+
+
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (1, 'horacio.wilderman@pagac.com', '6372ec76fea6c7516396bb838e3d6b2e1b83067d');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (2, 'effie77@dickens.com', '97c56b78415cccf3cf05cdf1ee71b714edcf10e2');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (3, 'nwisoky@legroscollins.net', '7a1ae955efded0f08a06a230b50b6cd6414954a7');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (4, 'uschowalter@cummerata.com', '743392b2660f756209ae7651bb5b822b30cbec59');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (5, 'king.maia@hotmail.com', 'b80b052f204e7a3b6cca20d4dd5fc43e5319274e');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (6, 'sidney36@yahoo.com', '63061a929aa7d61f9f1ad54500dd45106f16fc62');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (7, 'cornell.rath@gmail.com', '2a7b0cfecb915c66bfc3247a7b9ab96c1f36b2e3');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (8, 'jermey.reynolds@nienowwisoky.info', '96c3f1e36e2f21f88263a6c7cfdbb3f5f9c6c63e');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (9, 'keira.kshlerin@starkkuhn.biz', 'e4784172e4d0bccc05322c55beb1cfd3ab3a3119');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (10, 'lbartell@jenkins.com', 'd7c66dae14df386d13532b874d73f5115ac145d5');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (11, 'mhirthe@gmail.com', '7901a35783b5354395fb23e4d981f402581d4e17');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (12, 'carlee01@kerluke.com', 'b8588268a6dad88c965d8a97727dcc5202aaa2b8');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (13, 'albina68@gmail.com', 'ec32d3ab726126e4a78d05fa263309f6573b4671');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (14, 'qboyer@hotmail.com', 'e95247a96ddc799bd32cecbaad59f324f00050c1');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (15, 'skulas@hotmail.com', 'd94678c31ebd3a445436096f6407ea358a48a2d6');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (16, 'zula.price@gmail.com', '3594f3c90de95c3f0110d7110d2468c3c9381302');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (17, 'jana.pollich@farrellhermiston.com', '54415a7e9c548904770d57f0fd416080bbfcc711');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (18, 'aniyah.hodkiewicz@schneider.com', 'c4da061b139fddc076c71fc9e0c29ab820b05580');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (19, 'weber.daniella@bradtke.info', 'f4e19ee76b6ca5957911c94bfe9089486f3aaf5b');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (20, 'kamron.rau@effertzkertzmann.com', '9adf62f7a19eb459d7daa8ec25fc4f95b3060a20');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (21, 'hand.marina@gerholdstrosin.org', '486cb8b39ae6c485d95c703af121e9a91c3d1904');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (22, 'jamie45@hotmail.com', 'f23a88c14026d1b8651255f37a4daab0f5f96954');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (23, 'kieran67@gmail.com', '8ba13094f9b2051e2f915cbd14014cff9aa633d7');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (24, 'ruecker.corbin@gmail.com', 'a46d2177aedfdc749c043efd3419733aea19835f');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (25, 'adan10@hotmail.com', '0fc5b8b7a0327170dd1244a205606913ee33b83c');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (26, 'kenya.hyatt@hotmail.com', 'd32ae783a48e71dfea1d71776d62d8fd8c797caa');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (27, 'hessel.eleonore@dubuque.com', '029007ff71ca24d043c7925e3c753057358626bd');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (28, 'purdy.lea@cormier.biz', '0757c1999b142e7dd0e52ac77f47a0e46387f269');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (29, 'maximillian.abbott@ullrich.com', '5f70fa451d4bcf81488af1577917a7e3e414ad99');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (30, 'fanderson@keeblerschultz.org', 'cbc9e939515cfe2436c5bbe839e1e2f3dd6be355');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (31, 'theresia.ankunding@littel.com', 'a4cc2da8cc61171665e642ced5502cec2697d5fc');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (32, 'katrina.hettinger@yahoo.com', '2720fc4deae6ec3429817cbd5a030695040b4f75');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (33, 'bailey.carmelo@hotmail.com', '62c345088b465181345ebbc1501f6425d3009eb3');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (34, 'mcclure.lisa@bergelang.com', 'b1f0905f17bbf1ff7a944d7182dff007706e17ed');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (35, 'lstroman@yahoo.com', 'c07524a4b580181f88df4d6141390799e18c30b7');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (36, 'reva.bradtke@hotmail.com', '35efdd0042f9376a392d8934a019c1ae204a855c');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (37, 'art46@gmail.com', '86e31c2803ff6dc3f00a0b26cf60f022fdbf6940');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (38, 'naomie.kilback@daniel.biz', 'f7dd0a2c7126ae7a33707f3b749628cb1d50c6f6');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (39, 'streich.robert@gmail.com', '196160a6bd831671b6058fee16b376fc6d055c0e');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (40, 'ferdman@hotmail.com', '0f61df90972dd60d08c55062ce2d521632b05be0');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (41, 'mpaucek@hotmail.com', 'aa7ca3de0a8b3d7d70bf49529f1cd35cc1d2fada');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (42, 'xswift@gmail.com', 'af35847307afecc46c9ea340840ec5634a253aed');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (43, 'ryann80@yahoo.com', '0cdfbb7717c7e339bcb01952b8d06a2a9719bd1b');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (44, 'haven.ryan@oreilly.net', '3d7a0d6f123145d92183999f4ea4e624bcc426e7');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (45, 'nsawayn@schneider.net', 'ecf9ee380bae297480a3903111160f7f4206d456');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (46, 'ewell90@gmail.com', '510cfea1ddb35202809bb46be8345432ec1b75a6');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (47, 'wilton.kovacek@altenwerthdenesik.com', '63222b9bbd5ba8080ee41d0bf61fedf2d52fa6a9');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (48, 'waldo.thompson@yahoo.com', '37019de2af4d20853a71f5b7904eb475b2245d68');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (49, 'schroeder.mafalda@gmail.com', '5490f5e61de02700987e43fd576ddca023d6211e');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (50, 'lenora55@cole.com', '1d1d37baaa803f990a3967a2ac28f05d78eb09dd');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (51, 'felix.farrell@jerde.com', '3d0181105789344607ee256c35368816bba14ce2');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (52, 'zaria.hagenes@yahoo.com', '83912170de3dce0ed721d624dcc4d85da188f2a0');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (53, 'crawford.hilpert@hotmail.com', '619784a0c0240ef1a3e4a40290f698163b119075');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (54, 'watsica.hillard@grimesrohan.com', 'd5dfece802968c6e8d6984e7cfbe0f39a48732ee');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (55, 'dolly55@zemlakwiegand.com', '81ff3017595e9e8cdded515cfed5668e6cf09dde');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (56, 'raphael.gibson@yahoo.com', 'dcdb8f1e85570721640b256b2d65732bd2f707a3');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (57, 'oosinski@hodkiewicz.net', 'd4069adace5f6f0810ae86e18d0a18aecf40c073');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (58, 'josiah.hills@gmail.com', '04e031a7434f7b96fdbf704a954c59c40a97a0bb');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (59, 'welch.arianna@yahoo.com', '0f2863103f075e2d9b8f0e01ab2b46805e6f254d');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (60, 'nbergstrom@abshirewest.com', 'a6b34d5a5378584ec9cc7977ef78bcd9e196a983');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (61, 'isidro38@gmail.com', '5e1ca1a604e31d1abe10693cef71faf1c7b3c979');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (62, 'lbrakus@volkmankris.com', 'a9ddf6fe456e955f9d33cb0988cab633ee6e8ffc');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (63, 'leanne68@kautzerfay.biz', '901c6a171e8abee66c1d4679669c75e68e46615a');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (64, 'qbotsford@hotmail.com', 'df9b359dbcff5198d510f08eca8c5c20ae3e5fda');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (65, 'josefina.nienow@harris.net', '7ab323bdd3ada01d4de8b33ba2730e66599a30d4');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (66, 'sherwood83@hotmail.com', '9248f0be2325083757512422e1a685412bcdee3b');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (67, 'nelson45@hotmail.com', '82462014a67150c4ff6629d7ce27c9f0135e641f');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (68, 'astrid.reichert@gmail.com', 'e69f13f861d8553a703acba4f85b6f2f76456ec1');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (69, 'oprosacco@gmail.com', 'a4560fba5ff850e0059b26524e611bdbc87ba79c');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (70, 'nhaag@larson.com', '1264b6ff5a6f7e8e75517c5ea78c80d09071b609');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (71, 'lucile.kohler@gmail.com', '5e16ee94b2ed17dca64b56e3ff3fcdc42ece7aff');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (72, 'nkuhic@doyle.net', '4b574cbffcec6bfbafff864452f42fe58f36c9b5');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (73, 'forrest.orn@gerlach.com', 'bf5709987cf7c8f9e27e1150f28dfc181f205234');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (74, 'awest@hotmail.com', '2cddb63048396df0e20fdb7cc38065ba808cbc61');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (75, 'oceane.o\'hara@gmail.com', 'b377469e43c14d1a85237bbda271aa5c083d9410');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (76, 'ykihn@gusikowski.com', 'aba4f4cc256305152c7877a88e7ed0648dcea3f9');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (77, 'newell.koch@schmelermetz.org', 'f8fc47c88b66ec1628d7e86bf7095e8a4f816f3c');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (78, 'ofelia66@yahoo.com', 'cf4e7db8c0f71fca5dc5b72d757a737f9bf87c77');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (79, 'greenfelder.breana@hessellang.com', 'e19888e096d22a183d870e0c867ef55ad6eea2c0');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (80, 'julia.murazik@cormier.net', '73d779ce178392aa0911264b2e546670c54aabf1');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (81, 'lindsey67@beer.com', '894a6bb5c7175cb5551c8537ff538d1402f0048c');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (82, 'kconsidine@yahoo.com', '47d36959159d62229fa75ba149c062753b3dc0b5');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (83, 'jordane15@gmail.com', '350c8f03ee494f085bfefa0cb0f9c067133ce1ee');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (84, 'elwin.wintheiser@gmail.com', '507cbd9836c30e0799c83a76d65a62464bd4dacc');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (85, 'dion80@hotmail.com', 'd3323e021ef34560b226a0c937c530ed7464f22f');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (86, 'romaguera.olaf@yahoo.com', 'cb92d6530772f04f6c2b1f762955a3596f2f3253');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (87, 'hermann.macy@yahoo.com', 'a9272402ecf40aa2abbbc9934db9bfaffb48cf0a');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (88, 'armand83@miller.info', 'cbc54ca809b4bbd650fa802803b8fc66ffbdbdb0');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (89, 'vernon18@crona.com', 'af50da42429fc78caaac98aff76f5ae10475a1b1');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (90, 'wilmer.franecki@bogisich.com', 'fd5e1d1edb082bd91691c0d18b37d9513dce6889');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (91, 'waters.terrill@ullrichschowalter.com', 'c6d504e87fb2486a5b4690b4fb4c1cdb03efd8f3');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (92, 'hickle.frederic@yahoo.com', 'e5252087335cf66a6c358587e06c8abf149f8e72');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (93, 'arely69@gmail.com', 'cfab7f093d84000196df062f4f0f580580172fd8');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (94, 'shemar14@gmail.com', '601fc7d2e6e998535cc83afba4d3a8e184deae16');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (95, 'dbreitenberg@gmail.com', 'ac6ed2c4166f34f0831c71d8f1c22c3eb1245427');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (96, 'maxie57@kohler.com', 'fceedaa2f941aa28eb8301dc8f2185981b2acfb0');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (97, 'dooley.lee@pollichkeeling.com', '79f032829d65df01361d09664a61453264ab3f2d');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (98, 'muller.annalise@wolff.com', '9b56252da6298f78cbbc7eb1f1b694f7af1cdcdd');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (99, 'dexter.rempel@yahoo.com', '1d09b372069d34a006ec66d2062ee2ff3cee5bb5');
+INSERT INTO `users` (`id_users`, `login`, `password`) VALUES (100, 'cokuneva@yahoo.com', 'a03546cb3e218c4d6522513a136cc5e729d251c2');
+
+
+#
+# TABLE STRUCTURE FOR: videos
+#
+
+DROP TABLE IF EXISTS `videos`;
+
+CREATE TABLE `videos` (
+  `id_videos` int(11) NOT NULL AUTO_INCREMENT,
+  `tags` char(45) NOT NULL,
+  `date` date NOT NULL,
+  `price` int(11) NOT NULL,
+  `tags_for_videos_id` int(11) NOT NULL,
+  `users_id` int(11) NOT NULL,
+  PRIMARY KEY (`id_videos`),
+  KEY `tags_for_videos_id` (`tags_for_videos_id`),
+  KEY `users_id` (`users_id`),
+  CONSTRAINT `videos_ibfk_1` FOREIGN KEY (`tags_for_videos_id`) REFERENCES `tags_for_videos` (`id_tags_for_videos`),
+  CONSTRAINT `videos_ibfk_2` FOREIGN KEY (`users_id`) REFERENCES `users` (`id_users`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
