@@ -1,0 +1,93 @@
+DROP DATABASE `photo`;
+CREATE DATABASE IF NOT EXISTS `photo`;
+USE `photo`;
+
+CREATE TABLE IF NOT EXISTS `profile`(
+`id_profile` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`name` char(45) NOT NULL,
+`surname` char(45) NOT NULL,
+`birthday` date NOT NULL,
+`card` int UNIQUE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `users`(
+`id_users` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`login` char(45) UNIQUE NOT NULL,
+`password` char(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `status`(
+`id_status` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`name` enum('photographer', 'buyer', 'videographer', 'graphic designer') NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `photos`(
+`id_photos` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`tags` char(45) NOT NULL,
+`date` date NOT NULL,
+`price` int NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `tags_for_photos`(
+`id_tags_for_photos` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`name` char(45) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `state`(
+`id_state` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`name` char(45) NOT NULL
+);
+
+ALTER TABLE `profile` ADD COLUMN `users_id` int;
+ALTER TABLE `profile` ADD CONSTRAINT
+FOREIGN KEY (`users_id`) REFERENCES `users`(`id_users`);
+
+ALTER TABLE `profile` ADD COLUMN `status_id` int;
+ALTER TABLE `profile` ADD CONSTRAINT
+FOREIGN KEY (`status_id`) REFERENCES `status`(`id_status`);
+
+ALTER TABLE `profile` ADD COLUMN `state_id` int;
+ALTER TABLE `profile` ADD CONSTRAINT
+FOREIGN KEY (`state_id`) REFERENCES `state`(`id_state`);
+
+ALTER TABLE `photos` ADD COLUMN `users_id` int;
+ALTER TABLE `photos` ADD CONSTRAINT
+FOREIGN KEY (`users_id`) REFERENCES `users`(`id_users`);
+
+ALTER TABLE `photos` ADD COLUMN `tags_for_photos_id` int;
+ALTER TABLE `photos` ADD CONSTRAINT
+FOREIGN KEY (`tags_for_photos_id`) REFERENCES `tags_for_photos`(`id_tags_for_photos`);
+
+ALTER TABLE `profile` ADD COLUMN `phone` int NOT NULL UNIQUE;
+
+CREATE TABLE IF NOT EXISTS `categories`(
+`id_categories` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`name` char(45) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `graphics` (
+`id_graphics` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`tags` char(45) NOT NULL,
+`date` date NOT NULL,
+`price` int NOT NULL,
+`categories_id` int NOT NULL,
+FOREIGN KEY (`categories_id`) REFERENCES `categories`(`id_categories`),
+`users_id` int NOT NULL,
+FOREIGN KEY (`users_id`) REFERENCES `users`(`id_users`)
+);
+
+CREATE TABLE IF NOT EXISTS `tags_for_videos`(
+`id_tags_for_videos` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`name` char(45) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `videos` (
+`id_videos` int PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+`tags` char(45) NOT NULL,
+`date` date NOT NULL,
+`price` int NOT NULL,
+`tags_for_videos_id` int NOT NULL,
+FOREIGN KEY (`tags_for_videos_id`) REFERENCES `tags_for_videos`(`id_tags_for_videos`),
+`users_id` int NOT NULL,
+FOREIGN KEY (`users_id`) REFERENCES `users`(`id_users`)
+);
